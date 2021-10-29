@@ -1,6 +1,0 @@
-discord.py
-asyncio
-discord
-bs4
-requests
-niconico_dl
