@@ -1,0 +1,7 @@
+discord.py
+asyncio
+discord
+bs4
+requests
+json
+niconico_dl

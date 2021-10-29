@@ -1,0 +1,6 @@
+{
+  "name": "SmileBot",
+  "description": "このボットはニコニコの動画検索及びバックグラウンド再生を可能にします",
+  "repository": "https://github.com/SEED0228/SmileBot",
+  "keywords": ["python", "discord", "bot"]
+}

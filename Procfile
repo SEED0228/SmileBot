@@ -1,0 +1,1 @@
+smilebot: python smilebot.py
