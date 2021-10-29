@@ -2,7 +2,8 @@ import asyncio
 import discord
 import random
 from bs4 import BeautifulSoup
-import requests, json
+import requests
+import json
 from niconico_dl import NicoNicoVideoAsync
 from typing import Tuple, Dict
 from os import getenv
@@ -47,7 +48,7 @@ class NicoNicoDLSource(discord.PCMVolumeTransformer):
 async def create_ncnc_link(args) -> Tuple[str, Dict[str, str], Dict[str, str], bool]:
     params = {'q': '虚無', 'targets': 'title', 'min_viewCounter': '10000', 'sort': '-viewCounter', 'limit': '5', 'from': '2000-01-01', 'to': '2099-12-31'}
     errors = []
-    if '-t' in args: 
+    if '-t' in args:
         args.remove('-t')
     for arg in args:
         attrs = arg.split('=')
@@ -75,8 +76,6 @@ async def get_user_information(userId):
         user_image_url = soup.find('meta', {'property': 'og:image'}).get('content')
     return username, user_image_url
 
-    
-
 async def get_ncnc_information(link, embed):
     url = requests.get(link)
     text = ''
@@ -84,15 +83,15 @@ async def get_ncnc_information(link, embed):
     if txt['meta']['status'] == 200:
         for video in txt['data']:
             text = f"https://www.nicovideo.jp/watch/{video['contentId']}"
-            embed.add_field(name=f"{video['title']}", value=f"{str(video['viewCounter'])} views, ([{video['contentId']}]({text}))",inline=False)
+            embed.add_field(name=f"{video['title']}", value=f"{str(video['viewCounter'])} views, ([{video['contentId']}]({text}))", inline=False)
     else:
         embed.title = "ERROR"
         embed.description = "Something is wrong"
         embed.color = 0xff0000
-        embed.add_field(name=f"errorctx: {txt['meta']['errorctx']}", value=f"errorCode: {txt['meta']['errorCode']}",inline=False)
+        embed.add_field(name=f"errorctx: {txt['meta']['errorctx']}", value=f"errorCode: {txt['meta']['errorCode']}", inline=False)
 
 async def search_ncnc(ctx):
-    embed = discord.Embed(title='hoge', description='fuga',color=0x00ff00)
+    embed = discord.Embed(title='hoge', description='fuga', color=0x00ff00)
     args = ctx.content.replace('　', ' ').split(' ')[1:]
     while '' in args:
         args.remove('')
@@ -107,7 +106,7 @@ async def search_ncnc(ctx):
             embed.description = "Something is wrong"
             embed.color = 0xff0000
             for err in errors:
-                embed.add_field(name=err['name'], value=err['value'],inline=False)
+                embed.add_field(name=err['name'], value=err['value'], inline=False)
         else:
             embed.title = f"search_word: {params['q']}"
             embed.description = f"targets: {params['targets']}, min_viewCounter: {params['min_viewCounter']} sort: {params['sort']}, limit: {params['limit']}"
@@ -131,35 +130,35 @@ async def get_ncnc_information_with_thumbnail(link, ctx):
     if txt['meta']['status'] == 200:
         for video in txt['data']:
             text = f"https://www.nicovideo.jp/watch/{video['contentId']}"
-            embed = discord.Embed(title=f"{video['title']}", description=f"([{video['contentId']}]({text}))",color=0x00ff00)
+            embed = discord.Embed(title=f"{video['title']}", description=f"([{video['contentId']}]({text}))", color=0x00ff00)
             embed.set_thumbnail(url=video['thumbnailUrl'])
             embed.add_field(name="再生時間", value=(await get_time_str(int(video['lengthSeconds']))))
             embed.add_field(name="再生数", value=video['viewCounter'])
             embed.add_field(name="マイリス数", value=video['mylistCounter'])
             username, user_image_url = await get_user_information(video['userId'])
-            embed.set_author(name=username,url=f"https://www.nicovideo.jp/user/{video['userId']}",icon_url=user_image_url)
+            embed.set_author(name=username, url=f"https://www.nicovideo.jp/user/{video['userId']}", icon_url=user_image_url)
             await ctx.channel.send(embed=embed)
     else:
-        embed = discord.Embed(title=f"errorctx: {txt['meta']['errorctx']}", description=f"errorCode: {txt['meta']['errorCode']}",color=0x00ff00)
+        embed = discord.Embed(title=f"errorctx: {txt['meta']['errorctx']}", description=f"errorCode: {txt['meta']['errorCode']}", color=0x00ff00)
         await ctx.channel.send(embed=embed)
 
-async def get_one_ncnc_information(link, ctx):
+async def get_one_ncnc_information(link, ctx):OTAzNjUwMDc4MjQ0MzU2MTM2.YXwDtw.opBcXFMwuqKgBwnC8Y-QZs2wPKg
     url = requests.get(link)
     txt = json.loads(url.text)
     if txt['meta']['status'] == 200:
         video = random.choice(txt['data'])
         text = f"https://www.nicovideo.jp/watch/{video['contentId']}"
-        embed = discord.Embed(title=f"{video['title']}", description=f"([{video['contentId']}]({text}))",color=0x00ff00)
+        embed = discord.Embed(title=f"{video['title']}", description=f"([{video['contentId']}]({text}))", color=0x00ff00)
         embed.set_thumbnail(url=video['thumbnailUrl'])
         embed.add_field(name="再生時間", value=(await get_time_str(int(video['lengthSeconds']))))
         embed.add_field(name="再生数", value=video['viewCounter'])
         embed.add_field(name="マイリス数", value=video['mylistCounter'])
         username, user_image_url = await get_user_information(video['userId'])
-        embed.set_author(name=username,url=f"https://www.nicovideo.jp/user/{video['userId']}",icon_url=user_image_url)
+        embed.set_author(name=username, url=f"https://www.nicovideo.jp/user/{video['userId']}", icon_url=user_image_url)
         await ctx.channel.send(embed=embed)
         await play_music(text, ctx)
     else:
-        embed = discord.Embed(title=f"errorctx: {txt['meta']['errorctx']}", description=f"errorCode: {txt['meta']['errorCode']}",color=0x00ff00)
+        embed = discord.Embed(title=f"errorctx: {txt['meta']['errorctx']}", description=f"errorCode: {txt['meta']['errorCode']}", color=0x00ff00)
         await ctx.channel.send(embed=embed)
 
 async def search_ncnc_with_thumbnail(ctx):
@@ -167,17 +166,17 @@ async def search_ncnc_with_thumbnail(ctx):
     while '' in args:
         args.remove('')
     if len(args) < 1:
-        embed = discord.Embed(title='error invalid argument', description='please input search word',color=0xff0000)
+        embed = discord.Embed(title='error invalid argument', description='please input search word', color=0xff0000)
         await ctx.channel.send(embed=embed)
     else:
         link, errors, params = await create_ncnc_link(args)
         if len(errors) > 0:
-            embed = discord.Embed(title='ERROR', description='Something is wrong',color=0xff0000)
+            embed = discord.Embed(title='ERROR', description='Something is wrong', color=0xff0000)
             for err in errors:
-                embed.add_field(name=err['name'], value=err['value'],inline=False)
+                embed.add_field(name=err['name'], value=err['value'], inline=False)
             await ctx.channel.send(embed=embed)
         else:
-            embed = discord.Embed(title=f"search_word: {params['q']}", description=f"targets: {params['targets']}, min_viewCounter: {params['min_viewCounter']} sort: {params['sort']}, limit: {params['limit']}",color=0xffffff)
+            embed = discord.Embed(title=f"search_word: {params['q']}", description=f"targets: {params['targets']}, min_viewCounter: {params['min_viewCounter']} sort: {params['sort']}, limit: {params['limit']}", color=0xffffff)
             await ctx.channel.send(embed=embed)
             await get_ncnc_information_with_thumbnail(link, ctx)
 
@@ -225,12 +224,12 @@ async def play(ctx, args):
     else:
         link, errors, params = await create_ncnc_link(args[1:])
         if len(errors) > 0:
-            embed = discord.Embed(title='ERROR', description='Something is wrong',color=0xff0000)
+            embed = discord.Embed(title='ERROR', description='Something is wrong', color=0xff0000)
             for err in errors:
-                embed.add_field(name=err['name'], value=err['value'],inline=False)
+                embed.add_field(name=err['name'], value=err['value'], inline=False)
             await ctx.channel.send(embed=embed)
         else:
-            embed = discord.Embed(title=f"search_word: {params['q']}", description=f"targets: {params['targets']}, min_viewCounter: {params['min_viewCounter']} sort: {params['sort']}, limit: {params['limit']}",color=0xffffff)
+            embed = discord.Embed(title=f"search_word: {params['q']}", description=f"targets: {params['targets']}, min_viewCounter: {params['min_viewCounter']} sort: {params['sort']}, limit: {params['limit']}", color=0xffffff)
             await ctx.channel.send(embed=embed)
             await get_one_ncnc_information(link, ctx)
         return
