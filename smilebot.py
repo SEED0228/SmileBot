@@ -179,6 +179,7 @@ async def search_ncnc_with_thumbnail(ctx):
             await ctx.channel.send(embed=embed)
             await get_ncnc_information_with_thumbnail(link, ctx)
 
+
 def awaitable_voice_client_play(func, player, loop):
     f = asyncio.Future()
     after = lambda e: loop.call_soon_threadsafe(lambda: f.set_result(e))
