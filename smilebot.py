@@ -143,8 +143,7 @@ async def get_ncnc_information_with_thumbnail(link, ctx):
         await ctx.channel.send(embed=embed)
 
 async def get_one_ncnc_information(link, ctx):
-    url = requests.get(link)
-    txt = json.loads(url.text)
+    txt = json.loads(requests.get(link).text)
     if txt['meta']['status'] == 200:
         video = random.choice(txt['data'])
         text = f"https://www.nicovideo.jp/watch/{video['contentId']}"
