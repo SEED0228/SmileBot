@@ -142,7 +142,7 @@ async def get_ncnc_information_with_thumbnail(link, ctx):
         embed = discord.Embed(title=f"errorctx: {txt['meta']['errorctx']}", description=f"errorCode: {txt['meta']['errorCode']}", color=0x00ff00)
         await ctx.channel.send(embed=embed)
 
-async def get_one_ncnc_information(link, ctx):OTAzNjUwMDc4MjQ0MzU2MTM2.YXwDtw.opBcXFMwuqKgBwnC8Y-QZs2wPKg
+async def get_one_ncnc_information(link, ctx):
     url = requests.get(link)
     txt = json.loads(url.text)
     if txt['meta']['status'] == 200:
