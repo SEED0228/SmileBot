@@ -9,6 +9,8 @@ requests = "*"
 asyncio = "*"
 bs4 = "*"
 niconico-dl = "*"
+python-dotenv = "*"
+pynacl = "*"
 
 [dev-packages]
 

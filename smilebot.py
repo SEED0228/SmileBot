@@ -6,6 +6,7 @@ import requests
 import json
 from niconico_dl import NicoNicoVideoAsync
 from typing import Tuple, Dict
+from dotenv import load_dotenv
 from os import getenv
 
 ffmpeg_options = {
