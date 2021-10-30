@@ -47,14 +47,14 @@ class NicoNicoDLSource(discord.PCMVolumeTransformer):
         return (cls(discord.FFmpegPCMAudio(stream_url, **ffmpeg_options), url=stream_url, volume=volume), niconico)
 
 async def create_ncnc_link(args) -> Tuple[str, Dict[str, str], Dict[str, str], bool]:
-    params = {'q': '虚無', 'targets': 'title', 'min_viewCounter': '10000', 'sort': '-viewCounter', 'limit': '5', 'from': '2000-01-01', 'to': '2099-12-31'}
+    params = {'q': '', 'targets': 'title', 'min_viewCounter': '10000', 'sort': '-viewCounter', 'limit': '5', 'from': '2000-01-01', 'to': '2099-12-31'}
     errors = []
     if '-t' in args:
         args.remove('-t')
     for arg in args:
         attrs = arg.split('=')
         if len(attrs) == 1:
-            params['q'] = attrs[0]
+            params['q'] = attrs[0] if params['q'] == '' else params['q'] + ' ' + attrs[0]
         elif len(attrs) == 2:
             if attrs[0] in params:
                 params[attrs[0]] = attrs[1]
