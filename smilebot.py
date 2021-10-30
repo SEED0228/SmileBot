@@ -47,7 +47,7 @@ class NicoNicoDLSource(discord.PCMVolumeTransformer):
         return (cls(discord.FFmpegPCMAudio(stream_url, **ffmpeg_options), url=stream_url, volume=volume), niconico)
 
 async def create_ncnc_link(args) -> Tuple[str, Dict[str, str], Dict[str, str], bool]:
-    params = {'q': '', 'targets': 'title', 'min_viewCounter': 'o', 'sort': '-viewCounter', 'limit': '5', 'from': '2000-01-01', 'to': '2099-12-31'}
+    params = {'q': '', 'targets': 'title', 'min_viewCounter': '0', 'sort': '-viewCounter', 'limit': '5', 'from': '2000-01-01', 'to': '2099-12-31'}
     errors = []
     if '-t' in args:
         args.remove('-t')
