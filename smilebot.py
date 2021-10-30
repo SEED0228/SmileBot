@@ -89,7 +89,7 @@ async def get_ncnc_information(link, embed):
         embed.title = "ERROR"
         embed.description = "Something is wrong"
         embed.color = 0xff0000
-        embed.add_field(name=f"errorctx: {txt['meta']['errorctx']}", value=f"errorCode: {txt['meta']['errorCode']}", inline=False)
+        embed.add_field(name=f"errorMessage: {txt['meta']['errorMessage']}", value=f"errorCode: {txt['meta']['errorCode']}", inline=False)
 
 async def search_ncnc(ctx):
     embed = discord.Embed(title='hoge', description='fuga', color=0x00ff00)
@@ -145,6 +145,7 @@ async def get_ncnc_information_with_thumbnail(link, ctx):
 
 async def get_one_ncnc_information(link, ctx):
     txt = json.loads(requests.get(link).text)
+    print(txt)
     if txt['meta']['status'] == 200:
         video = random.choice(txt['data'])
         text = f"https://www.nicovideo.jp/watch/{video['contentId']}"
@@ -218,10 +219,15 @@ async def stop(ctx):
     await ctx.channel.send("playback has stopped")
 
 async def play(ctx, args):
-    if args[1].startswith('sm') or args[1].startswith('nm'):
+    if args[1].startswith('sm') or args[1].startswith('nm') or args[1].startswith('so'):
         url = f'https://www.nicovideo.jp/watch/{args[1]}'
+        contentId = url[31:]
+        link = f'https://api.search.nicovideo.jp/api/v2/snapshot/video/contents/search?q=&targets=tags&fields=lengthSeconds,mylistCounter,userId,thumbnailUrl,startTime,contentId,title,viewCounter&filters[contentId][0]={contentId}&_sort=viewCounter&_offset=0&_limit=1&_context=apiguide'
+        print(link)
     elif args[1].startswith('https://www.nicovideo.jp/watch/'):
         url = args[1]
+        contentId = url[31:]
+        link = f'https://api.search.nicovideo.jp/api/v2/snapshot/video/contents/search?q=&targets=tags&fields=lengthSeconds,mylistCounter,userId,thumbnailUrl,startTime,contentId,title,viewCounter&filters[contentId][0]={contentId}&_sort=viewCounter&_offset=0&_limit=1&_context=apiguide'
     else:
         link, errors, params = await create_ncnc_link(args[1:])
         if len(errors) > 0:
@@ -229,12 +235,11 @@ async def play(ctx, args):
             for err in errors:
                 embed.add_field(name=err['name'], value=err['value'], inline=False)
             await ctx.channel.send(embed=embed)
+            return
         else:
             embed = discord.Embed(title=f"search_word: {params['q']}", description=f"targets: {params['targets']}, min_viewCounter: {params['min_viewCounter']} sort: {params['sort']}, limit: {params['limit']}", color=0xffffff)
             await ctx.channel.send(embed=embed)
-            await get_one_ncnc_information(link, ctx)
-        return
-    await play_music(url, ctx)
+    await get_one_ncnc_information(link, ctx)
 
 @client.event
 async def on_ready():
