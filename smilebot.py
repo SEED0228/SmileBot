@@ -47,7 +47,7 @@ class NicoNicoDLSource(discord.PCMVolumeTransformer):
         return (cls(discord.FFmpegPCMAudio(stream_url, **ffmpeg_options), url=stream_url, volume=volume), niconico)
 
 async def create_ncnc_link(args) -> Tuple[str, Dict[str, str], Dict[str, str], bool]:
-    params = {'q': '', 'targets': 'title', 'min_viewCounter': '10000', 'sort': '-viewCounter', 'limit': '5', 'from': '2000-01-01', 'to': '2099-12-31'}
+    params = {'q': '', 'targets': 'title', 'min_viewCounter': 'o', 'sort': '-viewCounter', 'limit': '5', 'from': '2000-01-01', 'to': '2099-12-31'}
     errors = []
     if '-t' in args:
         args.remove('-t')
@@ -218,9 +218,9 @@ async def stop(ctx):
     await ctx.channel.send("playback has stopped")
 
 async def play(ctx, args):
-    if args[1].startswith('sm'):
+    if args[1].startswith('sm') or args[1].startswith('nm'):
         url = f'https://www.nicovideo.jp/watch/{args[1]}'
-    elif args[1].startswith('https://www.nicovideo.jp/watch/sm'):
+    elif args[1].startswith('https://www.nicovideo.jp/watch/'):
         url = args[1]
     else:
         link, errors, params = await create_ncnc_link(args[1:])
