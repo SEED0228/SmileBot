@@ -238,7 +238,7 @@ async def play(ctx, args):
 
 @client.event
 async def on_ready():
-    print('ハイ、よーいスタート（棒読み）')
+    print('サーバーを起動します。')
 
 @client.event
 async def on_message(ctx):
