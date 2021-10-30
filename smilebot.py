@@ -57,7 +57,7 @@ async def create_ncnc_link(args) -> Tuple[str, Dict[str, str], Dict[str, str], b
             params['q'] = attrs[0] if params['q'] == '' else params['q'] + ' ' + attrs[0]
         elif len(attrs) == 2:
             if attrs[0] in params:
-                params[attrs[0]] = attrs[1]
+                params[attrs[0]] = attrs[1].replace('+', '%2b')
             else:
                 errors.append({'name': "invalid argument", 'value': arg})
         else:
@@ -145,7 +145,6 @@ async def get_ncnc_information_with_thumbnail(link, ctx):
 
 async def get_one_ncnc_information(link, ctx):
     txt = json.loads(requests.get(link).text)
-    print(txt)
     if txt['meta']['status'] == 200:
         video = random.choice(txt['data'])
         text = f"https://www.nicovideo.jp/watch/{video['contentId']}"
@@ -223,7 +222,6 @@ async def play(ctx, args):
         url = f'https://www.nicovideo.jp/watch/{args[1]}'
         contentId = url[31:]
         link = f'https://api.search.nicovideo.jp/api/v2/snapshot/video/contents/search?q=&targets=tags&fields=lengthSeconds,mylistCounter,userId,thumbnailUrl,startTime,contentId,title,viewCounter&filters[contentId][0]={contentId}&_sort=viewCounter&_offset=0&_limit=1&_context=apiguide'
-        print(link)
     elif args[1].startswith('https://www.nicovideo.jp/watch/'):
         url = args[1]
         contentId = url[31:]
