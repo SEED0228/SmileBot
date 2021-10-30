@@ -256,5 +256,11 @@ async def on_message(ctx):
         await play(ctx, args)
     elif args[0] == '!ncst':
         await stop(ctx)
+    elif args[0] == '!ncq':
+        if ctx.guild.voice_client is None:
+            await ctx.channel.send("not connecting now")
+        else:
+            await ctx.guild.voice_client.disconnect()
+        
 
 client.run(getenv('DISCORD_BOT_TOKEN'))
