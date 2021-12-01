@@ -1,13 +1,20 @@
 # SmileBot
 
-## このボットについて
+## 目次
+
+- [このボットについて](#このボットについて)
+- [コマンド一覧](#コマンド一覧)
+- [使用例](#使用例)
+- [実行方法](#実行方法)
+
+# このボットについて
 
 このボットはニコニコの動画検索及びボイスチャンネルでの音楽再生を可能にします。
 
 ![ncp](img/ncp_hd.gif)
 
 
-## コマンド一覧
+# コマンド一覧
 
 |コマンド名  |内容  |
 |---|---|
@@ -102,3 +109,15 @@ OR検索も行えます
 ```
 
 ![ncs](img/ncs_hd.gif)
+
+# 実行方法
+
+.envに[DISCORD_BOT_TOKEN](https://discordpy.readthedocs.io/ja/latest/discord.html)を記述する。
+
+```
+pipenv install
+```
+
+```
+pipenv run python3 smilebot.py
+```
