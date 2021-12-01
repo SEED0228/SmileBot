@@ -112,6 +112,12 @@ OR検索も行えます
 
 # 実行方法
 
+.env_sampleをコピーして.envを作成する。
+
+```
+cp .env_sample .env
+```
+
 .envに[DISCORD_BOT_TOKEN](https://discordpy.readthedocs.io/ja/latest/discord.html)を記述する。
 
 ```
