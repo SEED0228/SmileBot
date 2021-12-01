@@ -8,6 +8,8 @@ from niconico_dl import NicoNicoVideoAsync
 from typing import Tuple, Dict
 from dotenv import load_dotenv
 from os import getenv
+# dockerで起動したとき環境変数を読み取る
+load_dotenv()
 
 ffmpeg_options = {
     'before_options':
