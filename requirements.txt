@@ -8,7 +8,7 @@ bs4==0.0.1
 certifi==2021.10.8
 cffi==1.15.0
 chardet==4.0.0
-charset-normalizer==2.0.7
+charset-normalizer==2.0.12
 discord.py==1.7.3
 idna==3.3
 multidict==5.2.0
