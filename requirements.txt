@@ -9,7 +9,7 @@ certifi==2021.10.8
 cffi==1.15.0
 chardet==4.0.0
 charset-normalizer==2.0.7
-discord.py==1.7.3
+discord.py==2.0.1
 idna==3.3
 multidict==5.2.0
 niconico-dl==2.2.7
